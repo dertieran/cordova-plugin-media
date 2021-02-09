@@ -155,6 +155,15 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             this.recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             this.recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS); // RAW_AMR);
             this.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC); //AMR_NB);
+
+            // NOTE: Set the bit and sampling rate to a better quality by default.
+            // TODO: Make this configurable when calling startRecordingAudio.
+            final int bitDepth = 16;
+            final int samplingRate = 44100;
+            final int bitRate = samplingRate * bitDepth;
+            recorder.setAudioEncodingBitRate(bitRate);
+            recorder.setAudioSamplingRate(samplingRate);
+            
             this.tempFile = generateTempFile();
             this.recorder.setOutputFile(this.tempFile);
             try {
